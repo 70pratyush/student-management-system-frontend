@@ -1,1 +1,14 @@
 @import "primeicons/primeicons.css";
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden;
+}
+
+.p-button:focus,
+.p-button:enabled:focus {
+  box-shadow: none !important;
+  outline: none !important;
+}

@@ -1,0 +1,50 @@
+.auth-container {
+  display: flex;
+  height: 100vh;
+}
+
+/* LEFT SIDE */
+
+.auth-left {
+  width: 45%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #f9fafb;
+}
+
+.auth-card {
+  width: 450px;
+}
+
+.subtitle {
+  color: #606672;
+  margin-bottom: 30px;
+  margin-top: -20px;
+  font-size: 12px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 24px;
+}
+
+.login-btn {
+  width: 100%;
+  margin-top: 10px;
+}
+
+/* RIGHT SIDE */
+
+.auth-right {
+  width: 55%;
+  background: linear-gradient(135deg,#c95050, #7b1d95);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.auth-right img {
+  width: 70%;
+}
