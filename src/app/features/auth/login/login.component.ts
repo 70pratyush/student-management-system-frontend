@@ -18,7 +18,7 @@ export class LoginComponent {
   password = '';
 
   private authService = inject(AuthService);
-    private router = inject(Router);
+  private router = inject(Router);
 
   login() {
     console.log(this.username, this.password);
@@ -32,6 +32,7 @@ export class LoginComponent {
       next: (res: any) => {
         const userInfo = this.authService.decodeJwt(res.access_token);
         localStorage.setItem('TOKEN', res.access_token);
+        this.authService.startAutoLogoutTimer(userInfo.exp);
         this.router.navigate(['/features/users']); 
       },
       error: (err) => {
