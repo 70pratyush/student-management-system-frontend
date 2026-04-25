@@ -1,5 +1,4 @@
-<div class="auth-container">
-
+<div class="auth-container">1
   <!-- LEFT SIDE -->
   <div class="auth-left">
 
@@ -11,18 +10,18 @@
       <div class="field">
         <span class="p-input-icon-left w-full">
           <i class="pi pi-user"></i>
-          <input pInputText type="text" placeholder="Enter email">
+          <input pInputText type="text" [(ngModel)]="username" placeholder="Enter email" style="width: 100%;">
         </span>
       </div>
 
       <div class="field">
         <span class="p-input-icon-left w-full">
           <i class="pi pi-lock"></i>
-          <input pInputText type="password" [(ngModel)]="password" placeholder="Enter password"/>
+          <input pInputText type="password" [(ngModel)]="password" placeholder="Enter password" style="width: 100%;">
         </span>
       </div>
 
-      <p-button label="Sign in" styleClass="login-btn"></p-button>
+      <p-button label="Sign in" styleClass="login-btn" (onClick)="login()"></p-button>
 
     </div>
 

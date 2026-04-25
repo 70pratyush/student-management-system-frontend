@@ -1,0 +1,44 @@
+<!-- generic-table.component.html -->
+
+<p-table
+  [value]="data"
+  [loading]="loading"
+  [paginator]="paginator"
+  [rows]="rows"
+  [responsiveLayout]="'scroll'"
+  styleClass="p-datatable-sm"
+>
+
+  <!-- HEADER -->
+  <ng-template pTemplate="header">
+    <tr>
+      <th *ngFor="let col of columns" 
+          [style.width]="col.width"
+          [pSortableColumn]="col.sortable ? col.field : null">
+
+        {{ col.header }}
+
+        <p-sortIcon *ngIf="col.sortable" [field]="col.field"></p-sortIcon>
+      </th>
+    </tr>
+  </ng-template>
+
+  <!-- BODY -->
+  <ng-template pTemplate="body" let-row>
+    <tr>
+      <td *ngFor="let col of columns">
+        {{ resolveField(row, col) }}
+      </td>
+    </tr>
+  </ng-template>
+
+  <!-- EMPTY -->
+  <ng-template pTemplate="emptymessage">
+    <tr>
+      <td [attr.colspan]="columns.length" class="text-center">
+        No data available
+      </td>
+    </tr>
+  </ng-template>
+
+</p-table>
