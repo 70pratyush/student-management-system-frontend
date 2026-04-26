@@ -1,11 +1,19 @@
 <!-- users.component.html -->
+<app-header></app-header>
 
-<div class="card">
-  <h2 class="mb-3">Users</h2>
-
+<div class="card">      
   <app-generic-table
+    title="Users"
     [data]="users"
     [columns]="columns"
-    [loading]="loading">
+    [loading]="loading"
+    [crudConfig]="{
+      create: true,
+      edit: true,
+      delete: true
+    }"
+    (create)="onCreate()"
+    (edit)="onEdit($event)"
+    (delete)="onDelete($event)">
   </app-generic-table>
 </div>

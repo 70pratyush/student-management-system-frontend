@@ -20,9 +20,7 @@ export class LoginComponent {
   private authService = inject(AuthService);
   private router = inject(Router);
 
-  login() {
-    console.log(this.username, this.password);
-    
+  login() {    
     const payload = {
       username: this.username,
       password: this.password,

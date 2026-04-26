@@ -1,23 +1,34 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { ButtonModule } from 'primeng/button';
+import { CardModule } from 'primeng/card';
 import { TableModule } from 'primeng/table';
 
 @Component({
   selector: 'app-generic-table',
   standalone: true,
-  imports: [TableModule, CommonModule],
+  imports: [TableModule, CommonModule, CardModule, ButtonModule],
   templateUrl: './generic-table.component.html',
-  styleUrl: './generic-table.component.scss'
+  styleUrl: './generic-table.component.scss',
 })
 export class GenericTableComponent {
+  @Input() title: string = '';
   @Input() data: any[] = [];
   @Input() columns: any[] = [];
   @Input() loading = false;
 
+  @Input() crudConfig?: {
+    create?: boolean;
+    edit?: boolean;
+    delete?: boolean;
+  };
   // optional features
   @Input() paginator = true;
   @Input() rows = 10;
 
+  @Output() create = new EventEmitter<void>();
+  @Output() edit = new EventEmitter<any>();
+  @Output() delete = new EventEmitter<any>();
   // RBAC hook (plug for permission service)
   hasPermission(permission?: string): boolean {
     if (!permission) return true;
@@ -36,5 +47,21 @@ export class GenericTableComponent {
 
   private getNestedValue(obj: any, path: string) {
     return path.split('.').reduce((acc, key) => acc?.[key], obj);
+  }
+
+  get showActions(): boolean {
+    return !!(this.crudConfig?.edit || this.crudConfig?.delete);
+  }
+
+  onCreate() {
+    this.create.emit();
+  }
+
+  onEdit(row: any) {
+    this.edit.emit(row);
+  }
+
+  onDelete(row: any) {
+    this.delete.emit(row);
   }
 }

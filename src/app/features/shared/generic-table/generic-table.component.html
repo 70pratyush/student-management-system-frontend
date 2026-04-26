@@ -1,44 +1,49 @@
-<!-- generic-table.component.html -->
+<div style="padding: 10px; margin: 25px">
+    <div style="display: flex; justify-content: space-between;">
+        <h2 class="mb-3">{{ title }}</h2>
+        <div class="flex justify-content-between mb-2">
+            <button *ngIf="crudConfig?.create" pButton label="Create" icon="pi pi-plus" (click)="onCreate()"></button>
+        </div>
+    </div>
+    <p-table [value]="data" [loading]="loading" [paginator]="paginator" [rows]="rows" [responsiveLayout]="'scroll'">
+        <!-- HEADER -->
+        <ng-template pTemplate="header">
+            <tr>
+                <th *ngFor="let col of columns" [style.width]="col.width"
+                    [pSortableColumn]="col.sortable ? col.field : null">
+                    {{ col.header }}
 
-<p-table
-  [value]="data"
-  [loading]="loading"
-  [paginator]="paginator"
-  [rows]="rows"
-  [responsiveLayout]="'scroll'"
-  styleClass="p-datatable-sm"
->
+                    <p-sortIcon *ngIf="col.sortable" [field]="col.field"></p-sortIcon>
+                </th>
+                <th *ngIf="showActions">Actions</th>
+            </tr>
+        </ng-template>
 
-  <!-- HEADER -->
-  <ng-template pTemplate="header">
-    <tr>
-      <th *ngFor="let col of columns" 
-          [style.width]="col.width"
-          [pSortableColumn]="col.sortable ? col.field : null">
+        <!-- BODY -->
+        <ng-template pTemplate="body" let-row>
+            <tr>
+                <td *ngFor="let col of columns">
+                    {{ resolveField(row, col) }}
+                </td>
+                <td *ngIf="showActions" style="display: flex; gap: 10px;">
+                    <button *ngIf="crudConfig?.edit" pButton icon="pi pi-pencil" [outlined]="true" [rounded]="true" (click)="onEdit(row)">
+                    </button>
 
-        {{ col.header }}
+                    <button *ngIf="crudConfig?.delete" pButton icon="pi pi-trash" [outlined]="true" [rounded]="true" severity="danger"
+                        (click)="onDelete(row)">
+                    </button>
+                </td>
 
-        <p-sortIcon *ngIf="col.sortable" [field]="col.field"></p-sortIcon>
-      </th>
-    </tr>
-  </ng-template>
+            </tr>
+        </ng-template>
 
-  <!-- BODY -->
-  <ng-template pTemplate="body" let-row>
-    <tr>
-      <td *ngFor="let col of columns">
-        {{ resolveField(row, col) }}
-      </td>
-    </tr>
-  </ng-template>
-
-  <!-- EMPTY -->
-  <ng-template pTemplate="emptymessage">
-    <tr>
-      <td [attr.colspan]="columns.length" class="text-center">
-        No data available
-      </td>
-    </tr>
-  </ng-template>
-
-</p-table>
+        <!-- EMPTY -->
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td [attr.colspan]="columns.length" class="text-center">
+                    No data available
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
