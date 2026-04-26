@@ -9,7 +9,7 @@ export const featureRoutes: Routes = [
     component: UserComponent
   },
   {
-    path: 'attendence',
+    path: 'attendance',
     component: AttendenceComponent
   },
   {

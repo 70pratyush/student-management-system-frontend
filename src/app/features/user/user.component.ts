@@ -3,7 +3,7 @@ import { AuthService } from '../../services/auth.service';
 import { User } from '../../models/user.model';
 import { GenericTableComponent } from '../shared/generic-table/generic-table.component';
 import { TableModule } from 'primeng/table';
-import { HeaderComponent } from '../../layout/header.component';
+import { HeaderComponent } from '../../header/header.component';
 import { ButtonModule } from 'primeng/button';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -20,20 +20,20 @@ import { InputTextModule } from 'primeng/inputtext';
 })
 export class UserComponent implements OnInit {
   showCreateDialog = false;
-saving = false;
+  saving = false;
 
-roles = [
-  { label: 'Employee', value: 'employee' },
-  { label: 'Admin', value: 'admin' },
-  { label: 'Manager', value: 'manager' }
-];
+  roles = [
+    { label: 'Employee', value: 'employee' },
+    { label: 'Admin', value: 'admin' },
+    { label: 'Manager', value: 'manager' }
+  ];
 
-mode: 'create' | 'edit' = 'create';
-selectedUser: any = null;
+  mode: 'create' | 'edit' = 'create';
+  selectedUser: any = null;
 
-userForm!: FormGroup;
+  userForm!: FormGroup;
 
-private fb = inject(FormBuilder);
+  private fb = inject(FormBuilder);
 
   users: any[] = [];
   loading = false;
@@ -55,21 +55,21 @@ private fb = inject(FormBuilder);
   private router = inject(Router)
 
   ngOnInit(): void {
-  this.initForm();
-  this.getUsers();
-}
+    this.initForm();
+    this.getUsers();
+  }
 
-initForm() {
-  this.userForm = this.fb.group({
-    name: ['', Validators.required],
-    username: ['', Validators.required],
-    email: ['', [Validators.required, Validators.email]],
-    phone_no: [''],
-    age: [null],
-    password: ['', Validators.required],
-    role: [null, Validators.required]
-  });
-}
+  initForm() {
+    this.userForm = this.fb.group({
+      name: ['', Validators.required],
+      username: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      phone_no: [''],
+      age: [null],
+      password: ['', Validators.required],
+      role: [null, Validators.required]
+    });
+  }
 
   getUsers() {
     this.loading = true;
@@ -101,105 +101,105 @@ initForm() {
     });
   }
 
-onCreate() {
-  this.mode = 'create';
-  this.selectedUser = null;
+  onCreate() {
+    this.mode = 'create';
+    this.selectedUser = null;
 
     this.showCreateDialog = true;
     this.userForm.reset();
   }
 
-saveUser() {
-  if (this.userForm.invalid) return;
+  saveUser() {
+    if (this.userForm.invalid) return;
 
-  this.saving = true;
+    this.saving = true;
 
-  const formValue = this.userForm.value;
+    const formValue = this.userForm.value;
 
-  const payload = {
-    name: formValue.name,
-    age: formValue.age,
-    email: formValue.email,
-    phone_no: formValue.phone_no,
-    username: formValue.username,
-    password: formValue.password,
-    role: [formValue.role]
-  };
+    const payload = {
+      name: formValue.name,
+      age: formValue.age,
+      email: formValue.email,
+      phone_no: formValue.phone_no,
+      username: formValue.username,
+      password: formValue.password,
+      role: [formValue.role]
+    };
 
-  if (this.mode === 'create') {
-    this.createUser(payload);
-  } else {
-    this.updateUser(payload);
+    if (this.mode === 'create') {
+      this.createUser(payload);
+    } else {
+      this.updateUser(payload);
+    }
   }
-}
-closeDialog() {
-  this.showCreateDialog = false;
-}
+  closeDialog() {
+    this.showCreateDialog = false;
+  }
 
-createUser(payload: any) {
-  this.authService.createUser(payload).subscribe({
-    next: () => {
-      this.afterSuccess();
-    },
-    error: (err) => {
-      console.error('Create failed:', err);
-      this.saving = false;
-    }
-  });
-}
+  createUser(payload: any) {
+    this.authService.createUser(payload).subscribe({
+      next: () => {
+        this.afterSuccess();
+      },
+      error: (err) => {
+        console.error('Create failed:', err);
+        this.saving = false;
+      }
+    });
+  }
 
-updateUser(payload: any) {
-  const oldUsername = this.selectedUser.username;
+  updateUser(payload: any) {
+    const oldUsername = this.selectedUser.username;
 
-  this.authService.updateUser(oldUsername, payload).subscribe({
-    next: () => {
-      this.afterSuccess();
-    },
-    error: (err) => {
-      console.error('Update failed:', err);
-      this.saving = false;
-    }
-  });
-}
+    this.authService.updateUser(oldUsername, payload).subscribe({
+      next: () => {
+        this.afterSuccess();
+      },
+      error: (err) => {
+        console.error('Update failed:', err);
+        this.saving = false;
+      }
+    });
+  }
 
-afterSuccess() {
-  this.saving = false;
-  this.showCreateDialog = false;
-  this.getUsers();
-}
+  afterSuccess() {
+    this.saving = false;
+    this.showCreateDialog = false;
+    this.getUsers();
+  }
 
-onEdit(user: any) {
-  this.mode = 'edit';
-  this.selectedUser = user;
+  onEdit(user: any) {
+    this.mode = 'edit';
+    this.selectedUser = user;
 
-  this.showCreateDialog = true;
+    this.showCreateDialog = true;
 
-  this.userForm.patchValue({
-    name: user.name,
-    username: user.username,
-    email: user.email,
-    phone_no: user.phone_no,
-    age: user.age,
-    password: '', // don’t prefill password
-    role: user.roles?.[0]?.name || null
-  });
-}
+    this.userForm.patchValue({
+      name: user.name,
+      username: user.username,
+      email: user.email,
+      phone_no: user.phone_no,
+      age: user.age,
+      password: '', // don’t prefill password
+      role: user.roles?.[0]?.name || null
+    });
+  }
 
   onDelete(user: any) {
-  const confirmDelete = confirm(`Delete user ${user.name}?`);
-  if (!confirmDelete) return;
+    const confirmDelete = confirm(`Delete user ${user.name}?`);
+    if (!confirmDelete) return;
 
-  this.loading = true;
+    this.loading = true;
 
-  this.authService.deleteUser(user.username).subscribe({
-    next: () => {
-      this.users = this.users.filter(u => u.username !== user.username);
-      this.loading = false;
-    },
-    error: (err: any) => {
-      console.error('Delete failed:', err);
-      this.loading = false;
-    }
-  });
-}
+    this.authService.deleteUser(user.username).subscribe({
+      next: () => {
+        this.users = this.users.filter(u => u.username !== user.username);
+        this.loading = false;
+      },
+      error: (err: any) => {
+        console.error('Delete failed:', err);
+        this.loading = false;
+      }
+    });
+  }
 }
