@@ -30,8 +30,8 @@ export class AuthService {
         return this.api.post(`${this.baseUrl}/admin/register`, payload);
     }
 
-    updateUser(id: number, payload: any) {
-        return this.api.put(`/users/${id}`, payload);
+    updateUser(id: string, payload: any) {
+        return this.api.put(`${this.baseUrl}/admin/users/${id}`, payload);
     }
 
     deleteUser(id: string) {

@@ -10,7 +10,7 @@ import { AuthService } from '../services/auth.service';
     <header class="app-header">
       <div class="title">Staff Management System</div>
 
-        <p-button icon="pi pi-sign-out" severity="danger" [outlined]="true" [rounded]="true" (click)="logout()"/>
+        <p-button icon="pi pi-sign-out" severity="danger" [rounded]="true" (click)="logout()"/>
     </header>
   `,
   styles: [`
@@ -24,8 +24,8 @@ import { AuthService } from '../services/auth.service';
       align-items: center;
       justify-content: space-between;
       padding: 0 1.5rem;
-      background: #d7c6c6;;
-      color: #000;
+      background: #000;
+      color: #fff;
       box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     }
 

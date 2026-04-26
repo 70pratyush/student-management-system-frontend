@@ -28,6 +28,9 @@ roles = [
   { label: 'Manager', value: 'manager' }
 ];
 
+mode: 'create' | 'edit' = 'create';
+selectedUser: any = null;
+
 userForm!: FormGroup;
 
 private fb = inject(FormBuilder);
@@ -98,13 +101,15 @@ initForm() {
     });
   }
 
-  onCreate() {
-  // open modal OR navigate
+onCreate() {
+  this.mode = 'create';
+  this.selectedUser = null;
+
     this.showCreateDialog = true;
     this.userForm.reset();
   }
 
-  saveUser() {
+saveUser() {
   if (this.userForm.invalid) return;
 
   this.saving = true;
@@ -112,23 +117,29 @@ initForm() {
   const formValue = this.userForm.value;
 
   const payload = {
-    id: 0, // or omit if backend auto-generates
     name: formValue.name,
     age: formValue.age,
     email: formValue.email,
     phone_no: formValue.phone_no,
     username: formValue.username,
     password: formValue.password,
-    role: [formValue.role] // IMPORTANT: array (matches curl)
+    role: [formValue.role]
   };
 
-  this.authService.createUser(payload).subscribe({
-    next: (res: any) => {
-      this.saving = false;
-      this.showCreateDialog = false;
+  if (this.mode === 'create') {
+    this.createUser(payload);
+  } else {
+    this.updateUser(payload);
+  }
+}
+closeDialog() {
+  this.showCreateDialog = false;
+}
 
-      // refresh OR optimistic update
-      this.getUsers();
+createUser(payload: any) {
+  this.authService.createUser(payload).subscribe({
+    next: () => {
+      this.afterSuccess();
     },
     error: (err) => {
       console.error('Create failed:', err);
@@ -137,12 +148,41 @@ initForm() {
   });
 }
 
-closeDialog() {
-  this.showCreateDialog = false;
+updateUser(payload: any) {
+  const oldUsername = this.selectedUser.username;
+
+  this.authService.updateUser(oldUsername, payload).subscribe({
+    next: () => {
+      this.afterSuccess();
+    },
+    error: (err) => {
+      console.error('Update failed:', err);
+      this.saving = false;
+    }
+  });
 }
 
-  onEdit(user: any) {
-  this.router.navigate(['/users/edit', user.id]);
+afterSuccess() {
+  this.saving = false;
+  this.showCreateDialog = false;
+  this.getUsers();
+}
+
+onEdit(user: any) {
+  this.mode = 'edit';
+  this.selectedUser = user;
+
+  this.showCreateDialog = true;
+
+  this.userForm.patchValue({
+    name: user.name,
+    username: user.username,
+    email: user.email,
+    phone_no: user.phone_no,
+    age: user.age,
+    password: '', // don’t prefill password
+    role: user.roles?.[0]?.name || null
+  });
 }
 
   onDelete(user: any) {

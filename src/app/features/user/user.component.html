@@ -10,7 +10,7 @@
     </app-generic-table>
 </div>
 
-<p-dialog header="Create User" [(visible)]="showCreateDialog" [modal]="true" [style]="{ width: '450px' }"
+<p-dialog   [header]="mode === 'create' ? 'Create User' : 'Edit User'" [(visible)]="showCreateDialog" [modal]="true" [style]="{ width: '450px' }"
     [closable]="true" [dismissableMask]="true">
     <form [formGroup]="userForm" class="p-fluid" style="display: flex; flex-direction: column; gap: 15px;">
         <div class="field">
