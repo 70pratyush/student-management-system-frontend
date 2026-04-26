@@ -6,15 +6,31 @@ import { TableModule } from 'primeng/table';
 import { HeaderComponent } from '../../layout/header.component';
 import { ButtonModule } from 'primeng/button';
 import { Router } from '@angular/router';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { DialogModule } from 'primeng/dialog';
+import { DropdownModule } from 'primeng/dropdown';
+import { InputTextModule } from 'primeng/inputtext';
 
 @Component({
   selector: 'app-user',
   standalone: true,
-  imports: [GenericTableComponent, HeaderComponent, ButtonModule],
+  imports: [GenericTableComponent, HeaderComponent, ButtonModule, DialogModule, ReactiveFormsModule, InputTextModule, DropdownModule],
   templateUrl: './user.component.html',
   styleUrl: './user.component.scss'
 })
 export class UserComponent implements OnInit {
+  showCreateDialog = false;
+saving = false;
+
+roles = [
+  { label: 'Employee', value: 'employee' },
+  { label: 'Admin', value: 'admin' },
+  { label: 'Manager', value: 'manager' }
+];
+
+userForm!: FormGroup;
+
+private fb = inject(FormBuilder);
 
   users: any[] = [];
   loading = false;
@@ -36,8 +52,21 @@ export class UserComponent implements OnInit {
   private router = inject(Router)
 
   ngOnInit(): void {
-    this.getUsers();
-  }
+  this.initForm();
+  this.getUsers();
+}
+
+initForm() {
+  this.userForm = this.fb.group({
+    name: ['', Validators.required],
+    username: ['', Validators.required],
+    email: ['', [Validators.required, Validators.email]],
+    phone_no: [''],
+    age: [null],
+    password: ['', Validators.required],
+    role: [null, Validators.required]
+  });
+}
 
   getUsers() {
     this.loading = true;
@@ -71,7 +100,45 @@ export class UserComponent implements OnInit {
 
   onCreate() {
   // open modal OR navigate
-  this.router.navigate(['/users/create']);
+    this.showCreateDialog = true;
+    this.userForm.reset();
+  }
+
+  saveUser() {
+  if (this.userForm.invalid) return;
+
+  this.saving = true;
+
+  const formValue = this.userForm.value;
+
+  const payload = {
+    id: 0, // or omit if backend auto-generates
+    name: formValue.name,
+    age: formValue.age,
+    email: formValue.email,
+    phone_no: formValue.phone_no,
+    username: formValue.username,
+    password: formValue.password,
+    role: [formValue.role] // IMPORTANT: array (matches curl)
+  };
+
+  this.authService.createUser(payload).subscribe({
+    next: (res: any) => {
+      this.saving = false;
+      this.showCreateDialog = false;
+
+      // refresh OR optimistic update
+      this.getUsers();
+    },
+    error: (err) => {
+      console.error('Create failed:', err);
+      this.saving = false;
+    }
+  });
+}
+
+closeDialog() {
+  this.showCreateDialog = false;
 }
 
   onEdit(user: any) {

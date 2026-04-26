@@ -27,7 +27,7 @@ export class AuthService {
     }
 
     createUser(payload: any) {
-        return this.api.post('/users', payload);
+        return this.api.post(`${this.baseUrl}/admin/register`, payload);
     }
 
     updateUser(id: number, payload: any) {

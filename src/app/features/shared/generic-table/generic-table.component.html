@@ -30,7 +30,7 @@
                     </button>
 
                     <button *ngIf="crudConfig?.delete" pButton icon="pi pi-trash" [outlined]="true" [rounded]="true" severity="danger"
-                        (click)="onDelete(row)">
+                        (click)="onDelete(row, $event)">
                     </button>
                 </td>
 

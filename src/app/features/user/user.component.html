@@ -1,19 +1,57 @@
 <!-- users.component.html -->
 <app-header></app-header>
 
-<div class="card">      
-  <app-generic-table
-    title="Users"
-    [data]="users"
-    [columns]="columns"
-    [loading]="loading"
-    [crudConfig]="{
+<div class="card">
+    <app-generic-table title="Users" [data]="users" [columns]="columns" [loading]="loading" [crudConfig]="{
       create: true,
       edit: true,
-      delete: true
-    }"
-    (create)="onCreate()"
-    (edit)="onEdit($event)"
-    (delete)="onDelete($event)">
-  </app-generic-table>
+      delete: true,
+    }" (create)="onCreate()" (edit)="onEdit($event)" (delete)="onDelete($event)">
+    </app-generic-table>
 </div>
+
+<p-dialog header="Create User" [(visible)]="showCreateDialog" [modal]="true" [style]="{ width: '450px' }"
+    [closable]="true" [dismissableMask]="true">
+    <form [formGroup]="userForm" class="p-fluid" style="display: flex; flex-direction: column; gap: 15px;">
+        <div class="field">
+            <label>Name</label>
+            <input pInputText formControlName="name" />
+        </div>
+
+        <div class="field">
+            <label>Username</label>
+            <input pInputText formControlName="username" />
+        </div>
+
+        <div class="field">
+            <label>Email</label>
+            <input pInputText formControlName="email" />
+        </div>
+
+        <div class="field">
+            <label>Phone</label>
+            <input pInputText formControlName="phone_no" />
+        </div>
+
+        <div class="field">
+            <label>Age</label>
+            <input pInputText type="number" formControlName="age" />
+        </div>
+
+        <div class="field">
+            <label>Role</label>
+            <p-dropdown [options]="roles" formControlName="role" placeholder="Select Role">
+            </p-dropdown>
+        </div>
+
+        <div class="field">
+            <label>Password</label>
+            <input pInputText type="password" formControlName="password" />
+        </div>
+    </form>
+
+    <ng-template pTemplate="footer">
+        <button pButton label="Cancel" class="p-button-text" severity="danger" (click)="closeDialog()"></button>
+        <button pButton label="Save" [loading]="saving" (click)="saveUser()" [disabled]="userForm.invalid"></button>
+    </ng-template>
+</p-dialog>

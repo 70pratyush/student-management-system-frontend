@@ -3,11 +3,12 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { TableModule } from 'primeng/table';
+import { ToastModule } from 'primeng/toast';
 
 @Component({
   selector: 'app-generic-table',
   standalone: true,
-  imports: [TableModule, CommonModule, CardModule, ButtonModule],
+  imports: [TableModule, CommonModule, CardModule, ButtonModule, ToastModule],
   templateUrl: './generic-table.component.html',
   styleUrl: './generic-table.component.scss',
 })
@@ -29,6 +30,7 @@ export class GenericTableComponent {
   @Output() create = new EventEmitter<void>();
   @Output() edit = new EventEmitter<any>();
   @Output() delete = new EventEmitter<any>();
+
   // RBAC hook (plug for permission service)
   hasPermission(permission?: string): boolean {
     if (!permission) return true;
@@ -61,7 +63,7 @@ export class GenericTableComponent {
     this.edit.emit(row);
   }
 
-  onDelete(row: any) {
+  onDelete(row: any, event: Event) {    
     this.delete.emit(row);
   }
 }
