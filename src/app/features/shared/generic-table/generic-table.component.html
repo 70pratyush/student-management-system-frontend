@@ -2,13 +2,15 @@
     <div style="display: flex; justify-content: space-between;">
         <h2 class="mb-3">{{ title }}</h2>
         <div class="flex justify-content-between mb-2">
-            <button *ngIf="crudConfig?.create" pButton label="Create" icon="pi pi-plus" (click)="onCreate()"></button>
+            <button pButton label="Attendance" [disabled]="!selectedRow" class="p-button-success" icon="pi pi-calendar" (click)="onActionClick()"></button>
+            <button *ngIf="crudConfig?.create" pButton label="Create" icon="pi pi-plus" (click)="onCreate()"  style="margin-left: 20px;"></button>
         </div>
     </div>
     <p-table [value]="data" [loading]="loading" [paginator]="paginator" [rows]="rows" [responsiveLayout]="'scroll'">
         <!-- HEADER -->
         <ng-template pTemplate="header">
             <tr>
+                <th style="width: 50px"></th>
                 <th *ngFor="let col of columns" [style.width]="col.width"
                     [pSortableColumn]="col.sortable ? col.field : null">
                     {{ col.header }}
@@ -22,16 +24,15 @@
         <!-- BODY -->
         <ng-template pTemplate="body" let-row>
             <tr>
+                <td>
+                    <p-radioButton name="rowSelect" [value]="row" [(ngModel)]="selectedRow"></p-radioButton>
+                </td>
                 <td *ngFor="let col of columns">
                     {{ resolveField(row, col) }}
                 </td>
                 <td *ngIf="showActions" style="display: flex; gap: 10px;">
-                    <button *ngIf="crudConfig?.edit" pButton icon="pi pi-pencil" [outlined]="true" [rounded]="true" (click)="onEdit(row)">
-                    </button>
-
-                    <button *ngIf="crudConfig?.delete" pButton icon="pi pi-trash" [outlined]="true" [rounded]="true" severity="danger"
-                        (click)="onDelete(row, $event)">
-                    </button>
+                    <button *ngIf="crudConfig?.edit" pButton icon="pi pi-pencil" [outlined]="true" [rounded]="true" (click)="onEdit(row)"></button>
+                    <button *ngIf="crudConfig?.delete" pButton icon="pi pi-trash" [outlined]="true" [rounded]="true" severity="danger" (click)="onDelete(row, $event)"></button>
                 </td>
 
             </tr>

@@ -2,11 +2,20 @@
 <app-header></app-header>
 
 <div class="card">
-    <app-generic-table title="Users" [data]="users" [columns]="columns" [loading]="loading" [crudConfig]="{
-      create: true,
-      edit: true,
-      delete: true,
-    }" (create)="onCreate()" (edit)="onEdit($event)" (delete)="onDelete($event)">
+    <app-generic-table 
+        title="Users" 
+        [data]="users" 
+        [columns]="columns" 
+        [loading]="loading" 
+        [crudConfig]="{
+            create: true,
+            edit: true,
+            delete: true,
+        }" 
+        (action)="onAttendance($event)"
+        (create)="onCreate()"   
+        (edit)="onEdit($event)" 
+        (delete)="onDelete($event)">
     </app-generic-table>
 </div>
 
@@ -29,6 +38,12 @@
         </div>
 
         <div class="field">
+            <label>Role</label>
+            <p-dropdown [options]="roles" formControlName="role" placeholder="Select Role">
+            </p-dropdown>
+        </div>
+
+        <div class="field">
             <label>Phone</label>
             <input pInputText formControlName="phone_no" />
         </div>
@@ -38,11 +53,6 @@
             <input pInputText type="number" formControlName="age" />
         </div>
 
-        <div class="field">
-            <label>Role</label>
-            <p-dropdown [options]="roles" formControlName="role" placeholder="Select Role">
-            </p-dropdown>
-        </div>
 
         <div class="field">
             <label>Password</label>

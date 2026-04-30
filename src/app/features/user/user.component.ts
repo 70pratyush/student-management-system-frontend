@@ -202,4 +202,10 @@ export class UserComponent implements OnInit {
       }
     });
   }
+
+  onAttendance(user: any) {
+    this.router.navigate(['features/attendance'], {
+      state: { user }
+    });
+  }
 }

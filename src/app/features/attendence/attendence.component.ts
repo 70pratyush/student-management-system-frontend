@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { HeaderComponent } from '../../header/header.component';
 
 @Component({
@@ -8,6 +8,9 @@ import { HeaderComponent } from '../../header/header.component';
   templateUrl: './attendence.component.html',
   styleUrl: './attendence.component.scss'
 })
-export class AttendenceComponent {
-
+export class AttendenceComponent implements OnInit {
+  ngOnInit() {
+    const user = history.state.user;
+    console.log(user);
+  }
 }
