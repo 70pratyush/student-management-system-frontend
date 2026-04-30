@@ -1,2 +1,76 @@
 <app-header></app-header>
-<p>attendence works!</p>
+
+<div class="card">
+  <app-generic-table
+    title="Attendance"
+    [data]="data"
+    [columns]="columns"
+    [loading]="loading"
+    [crudConfig]="{
+      create: true,
+      edit: true,
+      delete: true
+    }"
+    (create)="onCreate()"
+    (edit)="onEdit($event)"
+    (delete)="onDelete($event)">
+  </app-generic-table>
+</div>
+
+<p-dialog
+  [header]="mode === 'create' ? 'Mark Attendance' : 'Edit Attendance'"
+  [(visible)]="showDialog"
+  [modal]="true"
+  [style]="{ width: '400px' }"
+  [closable]="true"
+  [dismissableMask]="true"
+>
+  <form [formGroup]="attendanceForm" class="p-fluid" style="display:flex; flex-direction:column; gap:12px;">
+
+    <div class="field">
+      <label>Date</label>
+<p-calendar 
+  appendTo="body"
+  formControlName="date" 
+  dateFormat="yy-mm-dd"
+  [showIcon]="true">
+</p-calendar>    </div>
+
+    <div class="field">
+      <label>Check In</label>
+<p-calendar 
+    appendTo="body"
+  formControlName="check_in"
+  [timeOnly]="true"
+  hourFormat="24"
+  [showIcon]="true">
+</p-calendar>
+    </div>
+
+    <div class="field">
+      <label>Check Out</label>
+<p-calendar 
+  appendTo="body"
+  formControlName="check_out"
+  [timeOnly]="true"
+  hourFormat="24"
+  [showIcon]="true">
+</p-calendar>    </div>
+
+    <div class="field">
+      <label>Status</label>
+      <p-dropdown
+        appendTo="body"
+        [options]="statusOptions"
+        formControlName="status"
+        placeholder="Select Status">
+      </p-dropdown>
+    </div>
+
+  </form>
+
+  <ng-template pTemplate="footer">
+    <button pButton label="Cancel" class="p-button-text" (click)="closeDialog()"></button>
+    <button pButton label="Save" [loading]="saving" (click)="saveAttendance()" [disabled]="attendanceForm.invalid"></button>
+  </ng-template>
+</p-dialog>

@@ -26,6 +26,22 @@ export class AuthService {
         return this.api.get(`${this.baseUrl}/admin/users`, {});
     }
 
+    getAttendance(userId: any): Observable<any> {
+        return this.api.get(`${this.baseUrl}/api/attendance/${userId}`, {});
+    }
+
+    createAttendance(payload: any) {
+        return this.api.post(`${this.baseUrl}/api/attendance`, payload);
+    }
+    
+    updateAttendance(id: string, payload: any) {
+        return this.api.put(`${this.baseUrl}/api/attendance/${id}`, payload);
+    }
+
+    deleteAttendace(id: string) {
+        return this.api.delete(`${this.baseUrl}/api/attendance/${id}`);
+    }
+
     createUser(payload: any) {
         return this.api.post(`${this.baseUrl}/admin/register`, payload);
     }

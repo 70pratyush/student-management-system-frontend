@@ -18,8 +18,9 @@ export class GenericTableComponent {
   @Input() title: string = '';
   @Input() data: any[] = [];
   @Input() columns: any[] = [];
-  @Input() loading = false;
-
+  @Input() loading: boolean = false;
+  @Input() showAttendance!: boolean;
+  
   @Input() crudConfig?: {
     create?: boolean;
     edit?: boolean;
@@ -33,7 +34,7 @@ export class GenericTableComponent {
   @Output() edit = new EventEmitter<any>();
   @Output() delete = new EventEmitter<any>();
   @Output() action = new EventEmitter<any>();
-  
+
   selectedRow: any = null;
 
   // RBAC hook (plug for permission service)

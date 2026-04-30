@@ -12,6 +12,7 @@
             edit: true,
             delete: true,
         }" 
+        [showAttendance]="true"
         (action)="onAttendance($event)"
         (create)="onCreate()"   
         (edit)="onEdit($event)" 
@@ -38,12 +39,6 @@
         </div>
 
         <div class="field">
-            <label>Role</label>
-            <p-dropdown [options]="roles" formControlName="role" placeholder="Select Role">
-            </p-dropdown>
-        </div>
-
-        <div class="field">
             <label>Phone</label>
             <input pInputText formControlName="phone_no" />
         </div>
@@ -57,6 +52,12 @@
         <div class="field">
             <label>Password</label>
             <input pInputText type="password" formControlName="password" />
+        </div>
+
+        <div class="field">
+            <label>Role</label>
+            <p-dropdown [options]="roles" formControlName="role" placeholder="Select Role" appendTo="body">
+            </p-dropdown>
         </div>
     </form>
 
