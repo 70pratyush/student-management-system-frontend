@@ -35,6 +35,9 @@ export class LoginComponent {
         localStorage.setItem('USER_ID', userInfo.user_id);
         localStorage.setItem('ROLE', userInfo.role);
         this.authService.startAutoLogoutTimer(userInfo.exp);
+        if (userInfo.role === "employee") {
+          this.router.navigate(['/features/apply-leave']); 
+        }
         this.router.navigate(['/features/users']); 
       },
       error: (err) => {

@@ -3,11 +3,14 @@ import { ApiService } from './api.service';
 import { environment } from '../../environment/environment';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
+import { MessageService } from 'primeng/api';
 
 @Injectable({
     providedIn: 'root',
 })
 export class AuthService {
+        constructor(private messageService: MessageService) {}
+
     private baseUrl = environment.apiUrl;
 
     private api = inject(ApiService);
@@ -45,13 +48,17 @@ export class AuthService {
     createUser(payload: any) {
         return this.api.post(`${this.baseUrl}/admin/register`, payload);
     }
-
+    
     updateUser(id: string, payload: any) {
         return this.api.put(`${this.baseUrl}/admin/users/${id}`, payload);
     }
-
+    
     deleteUser(id: string) {
         return this.api.delete(`${this.baseUrl}/admin/users/${id}`);
+    }
+    
+    createLeave(payload: any) {
+        return this.api.post(`${this.baseUrl}/api/leave_request/`, payload);
     }
 
     decodeJwt(token: string): any | null {
@@ -87,5 +94,9 @@ export class AuthService {
 
         const payload = this.decodeJwt(token);
         this.startAutoLogoutTimer(payload.exp);
+    }
+
+    show(severity: 'success' | 'info' | 'warning' | 'danger', heading: string, detail: string) {
+        return this.messageService.add({ severity: severity, summary: heading, detail: detail });
     }
 }
