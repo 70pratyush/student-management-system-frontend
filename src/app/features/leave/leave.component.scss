@@ -1,0 +1,17 @@
+.leave-container{
+    margin: 30px;
+    background-color: white;
+    padding-bottom: 30px;
+    // .leave-card{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    // }
+}
+
+.field{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}

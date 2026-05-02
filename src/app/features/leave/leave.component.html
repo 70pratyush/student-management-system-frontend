@@ -1,0 +1,59 @@
+<app-header></app-header>
+
+<div class="leave-container">
+  <!-- <p-card class="leave-card"> -->
+    <h1>Greeting User!!!</h1>
+    <p class="subtitle">Click on 'Apply Leave' to proceed</p>
+
+    <button 
+      pButton 
+      type="button" 
+      label="Apply Leave" 
+      icon="pi pi-plus"
+      (click)="openDialog()">
+    </button>
+  <!-- </p-card> -->
+</div>
+
+<!-- Dialog -->
+<p-dialog 
+  header="Apply Leave"
+  [(visible)]="showDialog"
+  [modal]="true"
+  [style]="{ width: '400px' }"
+  [closable]="true">
+
+  <div class="p-fluid flex" style="display: flex; flex-direction: column; gap: 15px;">
+
+    <div class="field">
+      <label>Leave Type</label>
+      <p-dropdown 
+        appendTo="body"
+        [options]="leaveTypes"
+        [(ngModel)]="form.leave_type"
+        placeholder="Select Leave Type">
+      </p-dropdown>
+    </div>
+
+    <div class="field">
+      <label>Start Date</label>
+      <p-calendar [(ngModel)]="form.start_date" dateFormat="yy-mm-dd" appendTo="body"></p-calendar>
+    </div>
+
+    <div class="field">
+      <label>End Date</label>
+      <p-calendar [(ngModel)]="form.end_date" dateFormat="yy-mm-dd" appendTo="body"></p-calendar>
+    </div>
+
+    <button 
+      pButton 
+      label="Submit" 
+      (click)="applyLeave()"
+      class="mt-10"
+      [loading]="isSubmitting"
+      [disabled]="isSubmitting"
+      style="margin-top: 10px;">
+    </button>
+
+  </div>
+</p-dialog>
