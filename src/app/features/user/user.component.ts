@@ -19,6 +19,8 @@ import { InputTextModule } from 'primeng/inputtext';
   styleUrl: './user.component.scss'
 })
 export class UserComponent implements OnInit {
+  role = localStorage.getItem('ROLE');
+
   showCreateDialog = false;
   saving = false;
 

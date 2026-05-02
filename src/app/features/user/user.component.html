@@ -8,9 +8,9 @@
         [columns]="columns" 
         [loading]="loading" 
         [crudConfig]="{
-            create: true,
+            create: this.role === 'admin',
             edit: true,
-            delete: true,
+            delete: this.role === 'admin',
             approve: false,
             reject: false
         }" 
