@@ -7,7 +7,7 @@
             <button *ngIf="crudConfig?.create" pButton label="Create" icon="pi pi-plus" (click)="onCreate()"  style="margin-left: 20px;"></button>
         </div>
     </div>
-    <p-table [value]="data" [loading]="loading" [paginator]="paginator" [rows]="rows" [responsiveLayout]="'scroll'">
+    <p-table [value]="data" [loading]="loading" [paginator]="paginator" [rows]="rows" [responsiveLayout]="'scroll'" [style]="{'width': '100%'}">
         <!-- HEADER -->
         <ng-template pTemplate="header">
             <tr>

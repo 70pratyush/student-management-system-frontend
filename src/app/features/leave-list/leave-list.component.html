@@ -1,33 +1,46 @@
 <app-header></app-header>
 <div class="card">
-    <app-generic-table 
-        title="Leave List" 
-        [data]="userLeave" 
-        [columns]="columns" 
-        [loading]="loading" 
-        [crudConfig]="{
+    <app-generic-table title="Leave List" [data]="userLeave" [columns]="columns" [loading]="loading" [crudConfig]="{
             create: false,
             edit: true,
             delete: true,
-        }" 
-        (edit)="onEdit($event)" 
-        (delete)="onDelete($event)">
+        }" (edit)="onEdit($event)" (delete)="onDelete($event)">
     </app-generic-table>
 </div>
 
 <p-dialog header="Edit Leave" [(visible)]="displayEditDialog" [modal]="true" [style]="{ width: '400px' }">
-    
-    <div class="flex flex-column gap-3">
-        <input type="text" [(ngModel)]="selectedLeave.leaveType" placeholder="Leave Type" />
-        <input type="date" [(ngModel)]="selectedLeave.startDate" />
-        <input type="date" [(ngModel)]="selectedLeave.endDate" />
+
+    <div *ngIf="selectedLeave" class="flex flex-column gap-4">
+
+        <!-- Leave Type -->
+        <div class="field" style="display: flex; flex-direction: column; width: 350px;">
+            <label for="leaveType">Leave Type</label>
+            <p-dropdown id="leaveType" [options]="leaveTypes" [(ngModel)]="selectedLeave.leaveType" optionLabel="label"
+                optionValue="value" placeholder="Select Leave Type" appendTo="body" [style]="{'width': '345px', 'margin-top': '5px', 'margin-bottom': '15px' }"></p-dropdown>
+        </div>
+
+        <!-- Start Date -->
+        <div class="field">
+            <label for="startDate">Start Date</label>
+            <p-calendar id="startDate" [(ngModel)]="selectedLeave.startDate" dateFormat="yy-mm-dd"
+                [showIcon]="true" appendTo="body" [style]="{'width': '345px',  'margin-top': '5px', 'margin-bottom': '15px' }"></p-calendar>
+        </div>
+
+        <!-- End Date -->
+        <div cclass="field">
+            <label for="endDate">End Date</label>
+            <p-calendar id="endDate" [(ngModel)]="selectedLeave.endDate" dateFormat="yy-mm-dd" [showIcon]="true"
+                [minDate]="selectedLeave.startDate" appendTo="body" [style]="{'width': '345px',  'margin-top': '5px', 'margin-bottom': '15px' }"></p-calendar>
+        </div>
+
     </div>
 
     <ng-template pTemplate="footer">
-        <button pButton label="Cancel" class="p-button-text" (click)="displayEditDialog = false"></button>
-        <button pButton label="Save" 
-            [loading]="actionLoading"
-            (click)="confirmEdit()">
+        <button pButton label="Cancel" class="p-button-text" (click)="displayEditDialog = false">
+        </button>
+
+        <button pButton label="Save" [loading]="actionLoading" (click)="confirmEdit()">
         </button>
     </ng-template>
+
 </p-dialog>

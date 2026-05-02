@@ -45,6 +45,14 @@ export class AuthService {
     updateAttendance(id: string, payload: any) {
         return this.api.put(`${this.baseUrl}/api/attendance/${id}`, payload);
     }
+    
+    updateLeave(id: string, payload: any) {
+        return this.api.put(`${this.baseUrl}/api/leave_record/${id}`, payload);
+    }
+
+    deleteLeave(id: string) {
+        return this.api.delete(`${this.baseUrl}/api/leave_record/${id}`);
+    }
 
     deleteAttendace(id: string) {
         return this.api.delete(`${this.baseUrl}/api/attendance/${id}`);
