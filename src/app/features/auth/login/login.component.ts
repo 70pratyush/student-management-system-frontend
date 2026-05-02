@@ -30,7 +30,8 @@ export class LoginComponent {
       next: (res: any) => {
         const userInfo = this.authService.decodeJwt(res.access_token);
         console.log(userInfo);
-        const role = userInfo.role.toLowerCase();
+        const role = userInfo.roles;
+        console.log(role);
         
         localStorage.setItem('TOKEN', res.access_token);
         localStorage.setItem('USER_ID', userInfo.user_id);

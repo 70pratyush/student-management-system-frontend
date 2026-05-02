@@ -18,10 +18,16 @@ import { RouterModule } from '@angular/router';
 export class HeaderComponent implements OnInit {
 
   private authService = inject(AuthService);
+   
+  isEmployee: boolean = false;
 
   items: MenuItem[] = [];
 
   ngOnInit() {
+    const role = localStorage.getItem('ROLE');
+    if (role === 'employee') {
+      this.isEmployee = true;
+    }
     this.items = [
       {
         label: 'Users',

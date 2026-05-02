@@ -21,6 +21,6 @@ export const featureRoutes: Routes = [
     path: 'apply-leave',
     component: LeaveComponent,
     canActivate: [roleGuard],
-    data: { roles: ['admin', 'hr', 'manager'] }
+    data: { roles: ['employee'] }
   },
 ];

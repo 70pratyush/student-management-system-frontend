@@ -9,8 +9,8 @@
   <!-- RIGHT -->
   <div class="right">
     <nav class="nav">
-      <a routerLink="/features/users"><i style="color: white;" class="pi pi-users"></i> Users</a>
-      <a routerLink="/features/apply-leave"><i style="color: white;" class="pi pi-calendar"></i> Apply Leave</a>
+      <a *ngIf="!isEmployee" routerLink="/features/users"><i style="color: white;" class="pi pi-users"></i> Users</a>
+      <a *ngIf="isEmployee" routerLink="/features/apply-leave"><i style="color: white;" class="pi pi-calendar"></i> Apply Leave</a>
     </nav>
     <!-- <input type="text" placeholder="Search..." /> -->
 
