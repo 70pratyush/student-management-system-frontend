@@ -13,7 +13,9 @@
             delete: true,
         }" 
         [showAttendance]="true"
-        (action)="onAttendance($event)"
+        [showLeaveList]="true"
+        (attendence)="onAttendance($event)"
+        (leaveList)="onLeave($event)"
         (create)="onCreate()"   
         (edit)="onEdit($event)" 
         (delete)="onDelete($event)">

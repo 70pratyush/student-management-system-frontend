@@ -4,6 +4,7 @@ import { environment } from '../../environment/environment';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
+import { Leave } from '../models/leave.model';
 
 @Injectable({
     providedIn: 'root',
@@ -23,6 +24,10 @@ export class AuthService {
     logout() {
         localStorage.removeItem('TOKEN');
         this.router.navigate(['auth/login']);
+    }
+
+    getUserLeave(userId: any): Observable<any>  {
+        return this.api.get(`${this.baseUrl}/api/leave_record/${userId}`, {});
     }
 
     getUsers(): Observable<any> {

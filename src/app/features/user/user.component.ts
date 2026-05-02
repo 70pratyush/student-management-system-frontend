@@ -205,8 +205,18 @@ export class UserComponent implements OnInit {
   }
 
   onAttendance(user: any) {
+    console.log(user);
+    
     this.router.navigate(['features/attendance'], {
       state: { user }
     });
+  }
+
+  onLeave(user: any) {
+    console.log(user);
+    
+    this.router.navigate(['features/leave-list'], {
+      state: { user }
+    })
   }
 }

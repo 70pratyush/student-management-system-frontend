@@ -1,0 +1,33 @@
+<app-header></app-header>
+<div class="card">
+    <app-generic-table 
+        title="Leave List" 
+        [data]="userLeave" 
+        [columns]="columns" 
+        [loading]="loading" 
+        [crudConfig]="{
+            create: false,
+            edit: true,
+            delete: true,
+        }" 
+        (edit)="onEdit($event)" 
+        (delete)="onDelete($event)">
+    </app-generic-table>
+</div>
+
+<p-dialog header="Edit Leave" [(visible)]="displayEditDialog" [modal]="true" [style]="{ width: '400px' }">
+    
+    <div class="flex flex-column gap-3">
+        <input type="text" [(ngModel)]="selectedLeave.leaveType" placeholder="Leave Type" />
+        <input type="date" [(ngModel)]="selectedLeave.startDate" />
+        <input type="date" [(ngModel)]="selectedLeave.endDate" />
+    </div>
+
+    <ng-template pTemplate="footer">
+        <button pButton label="Cancel" class="p-button-text" (click)="displayEditDialog = false"></button>
+        <button pButton label="Save" 
+            [loading]="actionLoading"
+            (click)="confirmEdit()">
+        </button>
+    </ng-template>
+</p-dialog>

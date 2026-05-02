@@ -18,8 +18,10 @@ export class GenericTableComponent {
   @Input() title: string = '';
   @Input() data: any[] = [];
   @Input() columns: any[] = [];
+
   @Input() loading: boolean = false;
   @Input() showAttendance: boolean = false;
+  @Input() showLeaveList: boolean = false;
   
   @Input() crudConfig?: {
     create?: boolean;
@@ -33,7 +35,8 @@ export class GenericTableComponent {
   @Output() create = new EventEmitter<void>();
   @Output() edit = new EventEmitter<any>();
   @Output() delete = new EventEmitter<any>();
-  @Output() action = new EventEmitter<any>();
+  @Output() attendence = new EventEmitter<any>();
+  @Output() leaveList = new EventEmitter<any>();
 
   selectedRow: any = null;
 
@@ -61,9 +64,15 @@ export class GenericTableComponent {
     return !!(this.crudConfig?.edit || this.crudConfig?.delete);
   }
 
-  onActionClick() {
+  onActionClick(action: string) {
     if (this.selectedRow) {
-      this.action.emit(this.selectedRow);
+      console.log(this.selectedRow);
+      
+      if (action === 'leave') {
+        this.leaveList.emit(this.selectedRow)
+      } else {
+        this.attendence.emit(this.selectedRow);
+      }
     }
   }
 
