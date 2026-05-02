@@ -11,11 +11,12 @@ import { CommonModule } from '@angular/common';
 import { CalendarModule } from 'primeng/calendar';
 import { InputTextModule } from 'primeng/inputtext';
 import { DropdownModule } from 'primeng/dropdown';
+import { ToastModule } from 'primeng/toast';
 
 @Component({
   selector: 'app-leave-list',
   standalone: true,
-  imports: [GenericTableComponent, HeaderComponent, DialogModule, ButtonModule, FormsModule, CommonModule, DropdownModule, CalendarModule],
+  imports: [GenericTableComponent, HeaderComponent, DialogModule, ButtonModule, FormsModule, CommonModule, DropdownModule, CalendarModule, ToastModule],
   templateUrl: './leave-list.component.html',
   styleUrl: './leave-list.component.scss'
 })
@@ -33,18 +34,18 @@ export class LeaveListComponent {
   userId: number | null = null;
 
   leaveTypes = [
-  { label: 'Sick Leave', value: 'sick_leave' },
-  { label: 'Vacation', value: 'vacation' },
-  { label: 'Unpaid Leave', value: 'unpaid_leave' }
-];
+    { label: 'Sick Leave', value: 'sick_leave' },
+    { label: 'Vacation', value: 'vacation' },
+    { label: 'Unpaid Leave', value: 'unpaid_leave' }
+  ];
 
-columns = [
-  { field: 'id', header: 'ID' },
-  { field: 'leaveTypeLabel', header: 'Leave Type' }, 
-  { field: 'startDateLabel', header: 'Start Date' }, 
-  { field: 'endDateLabel', header: 'End Date' },    
-  { field: 'status', header: 'Status' }
-];
+  columns = [
+    { field: 'id', header: 'ID' },
+    { field: 'leaveTypeLabel', header: 'Leave Type' },
+    { field: 'startDateLabel', header: 'Start Date' },
+    { field: 'endDateLabel', header: 'End Date' },
+    { field: 'status', header: 'Status' }
+  ];
 
   ngOnInit() {
     const user = history.state.user;
@@ -58,16 +59,16 @@ columns = [
 
     this.authService.getUserLeave(this.userId).subscribe({
       next: (res) => {
-this.userLeave = res.map((leave: any) => ({
-  id: leave.id,
-  leaveType: leave.leave_type, // keep raw for edit
-  leaveTypeLabel: this.getLeaveLabel(leave.leave_type), 
-  startDate: new Date(leave.start_date),
-  endDate: new Date(leave.end_date),
-  startDateLabel: this.formatDate(leave.start_date), 
-  endDateLabel: this.formatDate(leave.end_date),     
-  status: leave.status
-}));
+        this.userLeave = res.map((leave: any) => ({
+          id: leave.id,
+          leaveType: leave.leave_type, // keep raw for edit
+          leaveTypeLabel: this.getLeaveLabel(leave.leave_type),
+          startDate: new Date(leave.start_date),
+          endDate: new Date(leave.end_date),
+          startDateLabel: this.formatDate(leave.start_date),
+          endDateLabel: this.formatDate(leave.end_date),
+          status: leave.status
+        }));
 
         this.loading = false;
       },
@@ -79,8 +80,8 @@ this.userLeave = res.map((leave: any) => ({
   }
 
   getLeaveLabel(value: string): string {
-  return this.leaveTypes.find(l => l.value === value)?.label || value;
-}
+    return this.leaveTypes.find(l => l.value === value)?.label || value;
+  }
 
   formatDateForApi(date: Date): string {
     return date.toISOString().split('T')[0];
@@ -106,10 +107,10 @@ this.userLeave = res.map((leave: any) => ({
     this.authService.deleteLeave(this.selectedLeave.id).subscribe({
       next: (res) => {
         this.actionLoading = false;
-        this.authService.show('success', 'Action Completed', 'Leave Record has been successfully deleted')
         this.getLeaves(); // refresh list
       },
       error: (err) => {
+        this.authService.show('warn', 'Action Denied', err.error.detail)
         console.error('Delete failed', err);
         this.actionLoading = false;
       }
@@ -140,6 +141,30 @@ this.userLeave = res.map((leave: any) => ({
       },
       error: (err) => {
         console.error('Update failed', err);
+        this.actionLoading = false;
+      }
+    });
+  }
+
+  onApprove(row: any) {
+    this.updateLeaveStatus(row.id, 'approved');
+  }
+
+  onReject(row: any) {
+    this.updateLeaveStatus(row.id, 'rejected');
+  }
+
+  updateLeaveStatus(id: string, status: 'approved' | 'rejected') {
+    this.actionLoading = true;
+
+    this.authService.leaveStatus(id, status).subscribe({
+      next: () => {
+        this.actionLoading = false;
+        this.authService.show('success', 'Status Updated', `Leave ${status}`);
+        this.getLeaves(); // refresh table
+      },
+      error: (err) => {
+        console.error('Status update failed', err);
         this.actionLoading = false;
       }
     });

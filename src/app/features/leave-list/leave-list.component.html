@@ -4,9 +4,12 @@
             create: false,
             edit: true,
             delete: true,
-        }" (edit)="onEdit($event)" (delete)="onDelete($event)">
+            approve: true,
+            reject: true
+        }" (edit)="onEdit($event)" (delete)="onDelete($event)"   (approve)="onApprove($event)" (reject)="onReject($event)">
     </app-generic-table>
 </div>
+    <p-toast />
 
 <p-dialog header="Edit Leave" [(visible)]="displayEditDialog" [modal]="true" [style]="{ width: '400px' }">
 

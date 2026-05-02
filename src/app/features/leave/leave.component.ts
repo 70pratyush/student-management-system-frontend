@@ -73,7 +73,7 @@ export class LeaveComponent {
         },
         error: (err) => {
           this.isSubmitting = false;4
-          this.authService.show('danger', 'Error', "Your Leave has failed to applied")
+          this.authService.show('error', 'Error', "Your Leave has failed to applied")
           console.error('Error:', err);
         }
       });

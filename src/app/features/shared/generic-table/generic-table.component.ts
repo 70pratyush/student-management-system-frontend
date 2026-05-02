@@ -27,6 +27,8 @@ export class GenericTableComponent {
     create?: boolean;
     edit?: boolean;
     delete?: boolean;
+    approve?: boolean;
+    reject?: boolean;
   };
   // optional features
   @Input() paginator = true;
@@ -37,6 +39,8 @@ export class GenericTableComponent {
   @Output() delete = new EventEmitter<any>();
   @Output() attendence = new EventEmitter<any>();
   @Output() leaveList = new EventEmitter<any>();
+  @Output() approve = new EventEmitter<any>();
+  @Output() reject = new EventEmitter<any>();
 
   selectedRow: any = null;
 

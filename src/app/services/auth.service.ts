@@ -73,6 +73,10 @@ export class AuthService {
     createLeave(payload: any) {
         return this.api.post(`${this.baseUrl}/api/leave_request/`, payload);
     }
+    
+    leaveStatus(id: string, status:  'approved' | 'rejected'){
+        return this.api.put(`${this.baseUrl}/api/leave_request/${id}/?status=${status}`, {});
+    }
 
     decodeJwt(token: string): any | null {
         try {
@@ -109,7 +113,7 @@ export class AuthService {
         this.startAutoLogoutTimer(payload.exp);
     }
 
-    show(severity: 'success' | 'info' | 'warning' | 'danger', heading: string, detail: string) {
+    show(severity: 'success' | 'info' | 'warn' | 'error', heading: string, detail: string) {
         return this.messageService.add({ severity: severity, summary: heading, detail: detail });
     }
 }
