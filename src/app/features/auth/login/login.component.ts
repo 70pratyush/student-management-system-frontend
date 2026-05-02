@@ -30,15 +30,17 @@ export class LoginComponent {
       next: (res: any) => {
         const userInfo = this.authService.decodeJwt(res.access_token);
         console.log(userInfo);
+        const role = userInfo.role.toLowerCase();
         
         localStorage.setItem('TOKEN', res.access_token);
         localStorage.setItem('USER_ID', userInfo.user_id);
-        localStorage.setItem('ROLE', userInfo.role);
+        localStorage.setItem('ROLE', role);
         this.authService.startAutoLogoutTimer(userInfo.exp);
-        if (userInfo.role === "employee") {
+        if (role === "employee") {
           this.router.navigate(['/features/apply-leave']); 
-        }
-        this.router.navigate(['/features/users']); 
+        }  else {
+          this.router.navigate(['/features/users']);
+        } 
       },
       error: (err) => {
         console.log(err);
