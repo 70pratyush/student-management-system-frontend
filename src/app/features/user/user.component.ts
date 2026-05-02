@@ -25,7 +25,8 @@ export class UserComponent implements OnInit {
   roles = [
     { label: 'Employee', value: 'employee' },
     { label: 'Admin', value: 'admin' },
-    { label: 'Manager', value: 'manager' }
+    { label: 'Manager', value: 'manager' },
+    { label: 'HR Manager', value: 'hr' }
   ];
 
   mode: 'create' | 'edit' = 'create';

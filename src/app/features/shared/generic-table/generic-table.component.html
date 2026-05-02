@@ -2,7 +2,7 @@
     <div style="display: flex; justify-content: space-between;">
         <h2 class="mb-3">{{ title }}</h2>
         <div class="flex justify-content-between mb-2">
-            <button *ngIf="showAttendance" pButton label="Attendance" [disabled]="!selectedRow" class="p-button-success" icon="pi pi-calendar" (click)="onActionClick()"></button>
+            <button *ngIf="showAttendance" pButton label="Attendance" [disabled]="!selectedRow" class="p-button-success" icon="pi pi-clock" (click)="onActionClick()"></button>
             <button *ngIf="crudConfig?.create" pButton label="Create" icon="pi pi-plus" (click)="onCreate()"  style="margin-left: 20px;"></button>
         </div>
     </div>
@@ -10,7 +10,7 @@
         <!-- HEADER -->
         <ng-template pTemplate="header">
             <tr>
-                <th style="width: 50px"></th>
+                <th *ngIf="showAttendance" style="width: 50px"></th>
                 <th *ngFor="let col of columns" [style.width]="col.width"
                     [pSortableColumn]="col.sortable ? col.field : null">
                     {{ col.header }}
@@ -24,7 +24,7 @@
         <!-- BODY -->
         <ng-template pTemplate="body" let-row>
             <tr>
-                <td>
+                <td *ngIf="showAttendance">
                     <p-radioButton name="rowSelect" [value]="row" [(ngModel)]="selectedRow"></p-radioButton>
                 </td>
                 <td *ngFor="let col of columns">

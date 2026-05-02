@@ -29,7 +29,11 @@ export class LoginComponent {
     this.authService.login(payload).subscribe({
       next: (res: any) => {
         const userInfo = this.authService.decodeJwt(res.access_token);
+        console.log(userInfo);
+        
         localStorage.setItem('TOKEN', res.access_token);
+        localStorage.setItem('USER_ID', userInfo.user_id);
+        localStorage.setItem('ROLE', userInfo.role);
         this.authService.startAutoLogoutTimer(userInfo.exp);
         this.router.navigate(['/features/users']); 
       },

@@ -19,7 +19,7 @@ export class GenericTableComponent {
   @Input() data: any[] = [];
   @Input() columns: any[] = [];
   @Input() loading: boolean = false;
-  @Input() showAttendance!: boolean;
+  @Input() showAttendance: boolean = false;
   
   @Input() crudConfig?: {
     create?: boolean;

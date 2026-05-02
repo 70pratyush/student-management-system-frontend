@@ -2,6 +2,7 @@
 import { Routes } from '@angular/router';
 import { UserComponent } from './user/user.component';
 import { AttendenceComponent } from './attendence/attendence.component';
+import { LeaveComponent } from './leave/leave.component';
 
 export const featureRoutes: Routes = [
   {
@@ -11,6 +12,10 @@ export const featureRoutes: Routes = [
   {
     path: 'attendance',
     component: AttendenceComponent
+  },
+  {
+    path: 'apply-leave',
+    component: LeaveComponent
   },
   {
     path: '',
